@@ -1,0 +1,17 @@
+{
+  "name": "property-pay",
+  "version": "1.0.0",
+  "description": "Property management application with React frontend and Express backend",
+  "scripts": {
+    "build": "cd client && npm install && npm run build",
+    "start": "cd server && npm start",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm start\"",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

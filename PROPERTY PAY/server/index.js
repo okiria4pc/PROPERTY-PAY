@@ -44,11 +44,23 @@ app.use((err, req, res, next) => {
 
 // Initialize database
 const { initializeDatabase } = require('./database/init');
-initializeDatabase().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+
+// For Vercel deployment, export the app as a handler
+if (process.env.VERCEL) {
+  // Initialize database and export app for Vercel
+  initializeDatabase().catch(err => {
+    console.error('Failed to initialize database:', err);
   });
-}).catch(err => {
-  console.error('Failed to initialize database:', err);
-  process.exit(1);
-});
+  
+  module.exports = app;
+} else {
+  // For local development, start the server
+  initializeDatabase().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  }).catch(err => {
+    console.error('Failed to initialize database:', err);
+    process.exit(1);
+  });
+}
